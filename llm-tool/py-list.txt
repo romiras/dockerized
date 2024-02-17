@@ -1,0 +1,10 @@
+README.txt
+_distutils_hack
+distutils-precedence.pth
+pip
+pip-23.2.1.dist-info
+pkg_resources
+setuptools
+setuptools-65.5.1.dist-info
+wheel
+wheel-0.42.0.dist-info
