@@ -1,0 +1,13 @@
+.DS_Store
+.dockerignore
+.env
+.env.*
+.envrc
+.git/
+.github/
+.tool-versions
+.vscode/
+.idea/
+Dockerfile
+build/
+build.sh

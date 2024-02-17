@@ -1,0 +1,44 @@
+# Use an official Python runtime as a parent image
+FROM python:3.11-slim
+
+# Set the cache directory for gpt4all
+ENV GPT4ALL_CACHE_DIR=$HOME/.cache/gpt4all
+
+RUN chmod -R 777 $GPT4ALL_CACHE_DIR/
+
+#RUN python3 -m pip install --user pipx && \
+#  python3 -m pipx ensurepath
+
+# Install any needed packages specified in requirements.txt
+RUN pip install --no-cache-dir llm
+
+#RUN pipx install llm && \
+#  llm install llm-gpt4all
+
+# Copy the current directory contents into the container at /app
+#COPY . /app
+
+# Import files from llm-tool.tar.gz
+#ADD llm-tool.tar.gz /
+
+RUN llm install llm-gpt4all && \
+  llm install llm-cluster && \
+  llm install llm-sentence-transformers && \
+  llm install all-MiniLM-L6-v2 && \
+  llm install all-mpnet-base-v2 && \
+  llm sentence-transformers register all-MiniLM-L6-v2 --alias minilm && \
+  llm sentence-transformers register all-mpnet-base-v2 --alias mpnet
+
+# RUN llm install llm-embed-jina
+
+RUN ls -la $GPT4ALL_CACHE_DIR/ && sleep 6 && exit 1
+
+RUN llm -m gpt4all-falcon-q4_0 '1+1=?' && \
+  llm -m orca-mini-3b-gguf2-q4_0 '1+1=?' && \
+  llm -m mistral-7b-instruct-v0 '1+1=?' && \
+  echo 'Models downloaded.'
+
+# Set the working directory in the container to /app
+WORKDIR /app
+
+ENTRYPOINT ["llm"]
